@@ -1,113 +1,186 @@
-import Image from 'next/image'
+"use client"
+import Image from "next/image";
+import React, { useState } from "react";
+import { MdOutlineShoppingCart } from "react-icons/md";
+import { FaUserCircle } from "react-icons/fa";
+import { InputAdornment, TextField } from "@mui/material";
+import { IoClose, IoSearch } from "react-icons/io5";
+import Badge from '@mui/material/Badge';
+import { styled } from '@mui/material/styles';
+import IconButton from '@mui/material/IconButton';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
-export default function Home() {
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  '& .MuiBadge-badge': {
+    right: -3,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+  },
+}));
+
+
+
+const homepagecards = [
+  { 
+    id: "1", 
+    label: "img-1", 
+    img: require("../assests/img-1.jpg"), 
+    description: "Delicious South Indian Meals, a perfect blend of flavors with sambar, rasam, poriyal, and freshly steamed rice." 
+  },
+  { 
+    id: "2", 
+    label: "img-2", 
+    img: require("../assests/img-2.jpg"), 
+    description: "Refreshing Beverage, the perfect way to cool off and complement your meal with a burst of freshness." 
+  },
+  { 
+    id: "3", 
+    label: "img-3", 
+    img: require("../assests/img-3.jpg"), 
+    description: "Wholesome meal with chapathi and channa masala, a classic pair that brings both nutrition and taste." 
+  },
+  { 
+    id: "4", 
+    label: "img-4", 
+    img: require("../assests/img-4.jpg"), 
+    description: "Rich and flavorful Mutton Curry, slow-cooked to perfection with aromatic spices for a hearty delight." 
+  },
+  { 
+    id: "5", 
+    label: "img-5", 
+    img: require("../assests/img-5.jpg"), 
+    description: "Buttery naan served with Chicken Ginger Garlic Curry, an irresistible combination of creamy and spicy flavors." 
+  },
+  { 
+    id: "6", 
+    label: "img-6", 
+    img: require("../assests/img-6.jpg"), 
+    description: "Hyderabad Special Chicken Biryani, a fragrant and spiced rice dish that’s a feast for the senses." 
+  },
+];
+
+
+const Home = () => {
+  const [textinput, settextinput] = useState("")
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % homepagecards.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? homepagecards.length - 1 : prevIndex - 1
+    );
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <>
+    <div className="bg-black min-h-screen">
+      <div className="bg-[#E81E63] p-3 gap-10 flex flex-row justify-between w-full items-center">
+        <div className="text-white font-serif text-xl w-[30%] ">
+          ZOSH Foods
+        </div>
+        <div className=" flex flex-row w-[70%]  gap-20 justify-between px-5">
+        <div className="w-[80%]">
+        <TextField
+        placeholder="Search..."
+        variant="outlined"
+        size="small"
+        value={textinput}
+        onChange={(e) => settextinput(e.target.value)}
+        className="w-full bg-gray-100 border-gray-100 border-2 rounded-md"
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+             {
+              textinput.length >= 1 ? ( <IoSearch
+                className="text-xl text-black cursor-pointer"
+                onClick={() => settextinput("")}
+              />) : ( <IoClose
+                className="text-xl text-black cursor-pointer"
+                onClick={() => settextinput("")}
+              />)
+             }
+            </InputAdornment>
+          ),
+        }}
+      />
+        </div>
+        <div className="flex w-[20%]  flex-row justify-around items-center">
+        <div>
+<FaUserCircle className="text-3xl text-white" />
+
+</div>
+<div>
+<IconButton aria-label="cart">
+      <StyledBadge badgeContent={4} color="secondary">
+        <ShoppingCartIcon className="text-white text-2xl"/>
+        
+      </StyledBadge>
+    </IconButton></div>
+        </div>
+
         </div>
       </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+    <div className="relative ">
+      {/* Carousel */}
+      <div className="relative w-full h-[650px] overflow-hidden ">
+        {homepagecards.map((card, index) => (
+          <div
+            key={card.id}
+            className={`absolute inset-0 transition-opacity duration-700 ${
+              currentIndex === index ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <Image
+  src={card.img} // Directly reference the path
+  alt={card.label}
+  width={1920} // Required for next/image
+  height={1080} // Required for next/image
+  className="w-full h-full object-cover"
+/>
+            <div className="absolute bottom-4 left-4 bg-black bg-opacity-60 text-xl text-white px-4 py-2 rounded-md">
+              {card.description}
+            </div>
+          </div>
+        ))}
       </div>
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+      {/* Navigation Buttons */}
+      <button
+        onClick={prevSlide}
+        className="absolute top-1/2 left-2 -translate-y-1/2 transition-all ease-in-out bg-black bg-opacity-60 text-white p-3 px-4 hover:scale-125 rounded-full hover:bg-opacity-80"
+      >
+        &#8592;
+      </button>
+      <button
+        onClick={nextSlide}
+        className="absolute top-1/2 right-2 -translate-y-1/2 transition-all ease-in-out bg-black bg-opacity-60 text-white p-3 px-4 hover:scale-125 rounded-full hover:bg-opacity-80"
+      >
+        &#8594;
+      </button>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+      {/* Dots for navigation */}
+      {/* <div className="flex justify-center space-x-2 mt-4">
+        {homepagecards.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentIndex(index)}
+            className={`w-3 h-3 rounded-full ${
+              currentIndex === index ? "bg-black" : "bg-gray-400"
+            }`}
+          ></button>
+        ))}
+      </div> */}
+    </div>
+    
+    </div>
+    </>
+    
+  );
+};
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-}
+export default Home;
