@@ -9,6 +9,7 @@ import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import LoginModal from "./src/components/Modal/Auth/LoginModal";
 
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -65,6 +66,8 @@ const homepagecards = [
 const Home = () => {
   const [textinput, settextinput] = useState("")
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [modelOpen, setModelOpen] = useState(false);
+
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % homepagecards.length);
@@ -96,10 +99,10 @@ const Home = () => {
           endAdornment: (
             <InputAdornment position="end">
              {
-              textinput.length >= 1 ? ( <IoSearch
+              textinput.length >= 1 ?  ( <IoClose
                 className="text-xl text-black cursor-pointer"
                 onClick={() => settextinput("")}
-              />) : ( <IoClose
+              />) : ( <IoSearch
                 className="text-xl text-black cursor-pointer"
                 onClick={() => settextinput("")}
               />)
@@ -110,7 +113,9 @@ const Home = () => {
       />
         </div>
         <div className="flex w-[20%]  flex-row justify-around items-center">
-        <div>
+        <div className="cursor-pointer" onClick={()=>{
+          setModelOpen(true)
+        }}>
 <FaUserCircle className="text-3xl text-white" />
 
 </div>
@@ -142,7 +147,7 @@ const Home = () => {
   height={1080} // Required for next/image
   className="w-full h-full object-cover"
 />
-            <div className="absolute bottom-4 left-4 bg-black bg-opacity-60 text-xl text-white px-4 py-2 rounded-md">
+            <div className="absolute bottom-4 left-4 bg-black bg-opacity-60  text-xl text-white px-4 py-2 rounded-md">
               {card.description}
             </div>
           </div>
@@ -175,6 +180,7 @@ const Home = () => {
           ></button>
         ))}
       </div> */}
+      <LoginModal isOpen={modelOpen} setIsModalOpen={setModelOpen} />
     </div>
     
     </div>
