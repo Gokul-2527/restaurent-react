@@ -1,10 +1,12 @@
 import { Modal, TextField, Autocomplete } from '@mui/material';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { IoCloseSharp } from 'react-icons/io5';
 
 const LoginModal = ({ isOpen, setIsModalOpen }) => {
+  const router = useRouter();
   const [show, setshow] = useState(true);
   const closeModal = () => {
     setIsModalOpen(false); // Close modal when triggered
@@ -26,7 +28,7 @@ const LoginModal = ({ isOpen, setIsModalOpen }) => {
 
   const roleOptions = [
     { label: "Customer", value: "ROLE_CUSTOMER" },
-    { label: "Admin", value: "ROLE_ADMIN" },
+    { label: "Restaurent-Owner", value: "ROLE_ADMIN" },
   ];
 
   const handleInputChange = (e) => {
@@ -88,18 +90,19 @@ const LoginModal = ({ isOpen, setIsModalOpen }) => {
       toast.error("Password must be at least 6 characters long");
       return;
     }
-  
+    router.push("/admin/createRestaurent");
+
     try {
-      const response = await axios.post("http://localhost:8080/auth/signup", {
-        name: formValues.name,
-        email: formValues.email,
-        password: formValues.password,
-        role: formValues.role,
-      });
-      if (response.data.success === true) {
-        toast.success("Registration successful!");
-      }
-      console.log("Register Response:", response.data);
+      // const response = await axios.post("http://localhost:8080/auth/signup", {
+      //   name: formValues.name,
+      //   email: formValues.email,
+      //   password: formValues.password,
+      //   role: formValues.role,
+      // });
+      // if (response.data.success === true) {
+      //   toast.success("Registration successful!");
+      // }
+      // console.log("Register Response:", response.data);
     } catch (error) {
       toast.error(error.response?.data?.message || "Registration failed!");
       console.error("Register Error:", error);

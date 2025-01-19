@@ -1,6 +1,6 @@
 "use client"
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { FaUserCircle } from "react-icons/fa";
 import { InputAdornment, TextField } from "@mui/material";
@@ -67,7 +67,11 @@ const Home = () => {
   const [textinput, settextinput] = useState("")
   const [currentIndex, setCurrentIndex] = useState(0);
   const [modelOpen, setModelOpen] = useState(false);
+  useEffect(() => {
+    const interval = setInterval(nextSlide, 3000); // Call `nextSlide` every 4 seconds
 
+    return () => clearInterval(interval); // Cleanup interval on component unmount
+  }, []);
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % homepagecards.length);
@@ -84,7 +88,7 @@ const Home = () => {
     <div className="bg-black min-h-screen">
       <div className="bg-[#E81E63] p-3 gap-10 flex flex-row justify-between w-full items-center">
         <div className="text-white font-serif text-xl w-[30%] ">
-          ZOSH Foods
+          DEVA Foods
         </div>
         <div className=" flex flex-row w-[70%]  gap-20 justify-between px-5">
         <div className="w-[80%]">
