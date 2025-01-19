@@ -31,7 +31,7 @@ const Foodcategory = () => {
         <Toaster />
         <div className="flex flex-col w-full p-5">
           <div className="flex flex-row justify-between p-2 items-center w-full">
-            <div className="text-3xl text-white">Categories</div>
+            <div className="text-3xl text-white">Food Category</div>
             <div>
               <Tooltip
                 onClick={() => setShow(!show)}
